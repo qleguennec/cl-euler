@@ -13,6 +13,15 @@
                   (take-while-below n (multiples-of 15))
                   (into m3 m5)))))
 
+(defn pb-02
+  [n]
+  (reduce (fn [acc x]
+            (if (even? x)
+              (+ acc x)
+              acc))
+          0
+          (last (take-while #(< (first %) n) (fibs)))))
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
