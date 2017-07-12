@@ -22,6 +22,15 @@
           0
           (last (take-while #(< (first %) n) (fibs)))))
 
+(defn pb-03
+  [x]
+  (loop [a 2
+         rest x]
+    (cond
+      (= a rest) a
+      (not (div? a rest)) (recur (inc a) rest)
+      :else (recur 3 (/ rest a)))))
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
