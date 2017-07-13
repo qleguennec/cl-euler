@@ -1,5 +1,4 @@
 (ns cl-euler.core
-  (:gen-class)
   (:use [cl-euler.functions]))
 
 (defn pb-01
@@ -43,7 +42,31 @@
             divs)
        (* acc d)))))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
+(defn pb-06
+  [n]
+  (- (let [s (sum (range 1 (inc n)))] (* s s))
+     (reduce (fn [acc x] (+ acc (* x x))) 0 (range 1 (inc n)))))
+
+(defn pb-07
+  [n]
+  (nth (primes) (dec n)))
+
+(defn pb-08
+  [n]
+  (loop [[x & rest :as digits]
+         (map #(- (int %) (int \0)) (slurp "./resources/pb-08.txt"))
+         max-prod 0]
+    (if (nil? x) max-prod
+        (let [prod (product (take n digits))]
+          (recur rest (if (> prod max-prod) prod max-prod))))))
+
+(defn pb-09
+  [n]
+  (loop [[[a b c] & parts] (map sort (k-partitions n 3))]
+        (if (= (* c c) (+ (* a a) (* b b)))
+          (* a b c)
+          (recur parts))))
+
+(defn pb-10
+  [n]
+  (sum (take-while-below n (primes))))

@@ -2,6 +2,13 @@
   (:import java.lang.Math
            java.lang.String))
 
+(defn flip
+  "Like partial except you supply everything but the first argument."
+  ([f b] (fn [a] (f a b)))
+  ([f b c] (fn [a] (f a b c)))
+  ([f b c d & more]
+   (fn [a] (apply f a b c d more))))
+
 (defn sum
   [coll]
   (reduce + 0 coll))
@@ -35,6 +42,11 @@
 (defn nat-sqrt
   [x]
   (int (Math/sqrt x)))
+
+(defn square?
+  [x]
+  (let [sqrt (Math/sqrt x)]
+    (== (int sqrt) sqrt)))
 
 (defn prime?
   [x]
@@ -77,3 +89,17 @@
                (cons p factors)
                factors)))))
 
+(defn k-partitions
+  [n k]
+  (cond
+    (= k 0) '()
+    (= k 1) (for [a (range 1 n)] [a (- n a)])
+    (= k 2) (for [a (range 1 (inc (/ n 2)))] [a (- n a)])
+    :else
+    (reduce
+     (fn [acc x] (into acc
+        (map
+         (flip conj x)
+         (k-partitions (- n x) (dec k)))))
+     '()
+     (range 1 (/ n 2)))))
