@@ -1,9 +1,14 @@
 (ns cl-euler.functions
-  (:import java.lang.Math))
+  (:import java.lang.Math
+           java.lang.String))
 
 (defn sum
   [coll]
   (reduce + 0 coll))
+
+(defn product
+  [coll]
+  (reduce * 1 coll))
 
 (defn take-while-below
   [n coll]
@@ -63,7 +68,7 @@
 
 (defn single-prime-factors-of
   [x]
-  (loop [[p & rest] (take-while-below x (primes))
+  (loop [[p & rest] (take-while-below (inc x) (primes))
          factors []]
     (if (nil? p)
       factors
@@ -71,3 +76,4 @@
              (if (div? p x)
                (cons p factors)
                factors)))))
+

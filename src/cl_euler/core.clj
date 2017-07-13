@@ -31,6 +31,18 @@
       (not (div? a rest)) (recur (inc a) rest)
       :else (recur 3 (/ rest a)))))
 
+(defn pb-05
+  [n]
+  (loop [[d & divs] (range 2 (inc n))
+         acc 1]
+    (if (nil? d)
+      acc
+      (recur
+       (map #(let [x (/ % d)]
+               (if (integer? x) x %))
+            divs)
+       (* acc d)))))
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
